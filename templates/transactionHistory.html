@@ -29,12 +29,12 @@
                     <option value="Cash">Cash</option>
 					<option value="Revolut">Revolut</option>
 					<option value="Popso">Popso</option>
-                    <option value="Popso">BuddyBank</option>
+                    <option value="BuddyBank">BuddyBank</option>
 				</select>
 			</div>
             <div class="form-group col-md-10 col-lg-4">
 				<select name="category" id="category" class="form-control">
-					<option value="Miscellaneous" selected="selected">Select Category</option>
+					<option value="Other" selected="selected">Select Category</option>
 					<option value="Food">Food</option>
 					<option value="Rent">Rent</option>
                     <option value="Health">Health</option>
@@ -95,6 +95,7 @@
 	{% if result != 0%}
 	<div class="month">
 		<h3 class="text-light float-left">Balance = <span class="green-text">€ {{totalExpenses}}</span></h3>
+        <a href="outflow" class="btn btn-warning outflow_chart float-right" style="margin-right: 10px">Outflow</a>
 		<a href="category" class="btn btn-warning pie_chart float-right " style="margin-right: 10px">Category Pie Chart</a>
 		<a href="monthly_performance" class="btn btn-warning bar_chart float-right" style="margin-right: 10px">Monthly Balance</a>
 		<a href="monthly_bar" class="btn btn-warning line_chart float-right" style="margin-right: 10px">Monthly Flow</a>
@@ -102,7 +103,7 @@
 	<div class="table-responsive">
 		<table class="table table-striped text-light">
 			<tr>
-				<th>Date / Time</th>
+				<th>Date</th>
 				<th>Amount</th>
 				<th>Bank</th>
                 <th>Category</th>
@@ -206,8 +207,8 @@
                                 <input type="number" id="amount" placeholder="Amount" name="amount" class="form-control" value="0" step="any"/>
                             </div>
                             <div class="form-group text-light">
-                                <select name="category" id="category" class="form-control">
-                                    <option value="Miscellaneous" selected="selected">Select Category</option>
+                                <select name="category_selector" id="category_selector" class="form-control">
+                                    <option value="Other" >Select Category</option>
                                     <option value="Food">Food</option>
                                     <option value="Rent">Rent</option>
                                     <option value="Health">Health</option>

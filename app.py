@@ -8,6 +8,7 @@ from functools import wraps
 
 app = Flask(__name__)
 app.secret_key ="set secret keys"
+app.config['MESSAGE_FLASHING_OPTIONS'] = {'duration': 3}
 
 
 class SignUpForm(Form):
@@ -130,7 +131,6 @@ def logout():
 @app.route('/', methods=['GET', 'POST'])
 @is_logged_in
 def hello_world():  # put application's code here
-    saldo_popso = 4612.59
     if request.method == 'POST':
         month = f"{int(request.form['month']):02}"
         year = f"{int(request.form['year']):04}"
@@ -142,7 +142,7 @@ def hello_world():  # put application's code here
             "SELECT SUM(amount) FROM transactions  ")
 
         data = cur.fetchone()
-        totalExpenses = f"{data[0] + saldo_popso:.1f}"
+        totalExpenses = f"{data[0] :.1f}"
         query = "SELECT * FROM transactions  ORDER BY date DESC"
         if month != "00":
             query = f"SELECT * FROM transactions WHERE date >= '{year}/{month}/01' AND date <= '{year}/{month}/31' ORDER BY date DESC"
@@ -168,7 +168,7 @@ def hello_world():  # put application's code here
             "SELECT SUM(amount) FROM transactions ")
 
         data = cur.fetchone()
-        totalExpenses = f"{data[0] + saldo_popso:.1f}"
+        totalExpenses = f"{data[0]:.1f}"
 
         # Get Latest Transactions made by a particular user
         result = cur.execute(
@@ -311,7 +311,7 @@ def monthlyPerformance():
         f"SELECT  SUM(amount),  STRFTIME('%Y-%m-%d',  REPLACE(date, '/', '-')) as date FROM transactions GROUP BY STRFTIME('%d-%m-%Y', REPLACE(date, '/', '-')) ORDER BY date")
     result = result.fetchall()
     if len(result) > 0:
-        sum = 4612.59  # saldo popso
+        sum = 0
         state = []
         day = []
         for transaction in result:
@@ -326,9 +326,9 @@ def monthlyPerformance():
     return redirect(url_for('hello_world'))
 
 
-@app.route('/categor')
+@app.route('/outflow')
 @is_logged_in
-def categoryBarChart():
+def outflowChart():
     conn = sqlite3.connect('budget_tracker.db')
     cur = conn.cursor()
     result = cur.execute(

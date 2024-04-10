@@ -19,7 +19,7 @@ $(document).ready(function () {
 		$('#date').val(formattedDateString);
 		$('#amount').val(amount);
 		$('#description').val(description);
-		$('#category').val(category);
+		$('#category_selector').val(category);
 
 		// Add the "selected" attribute to the first option
 		if (bank == "Revolut") {
