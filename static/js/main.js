@@ -37,5 +37,8 @@ $(document).ready(function () {
 		$('.modal-form', 'input').val(id);
 
 		$('.modal-form').attr('action', url);
+
 	});
+	$(".goTop").click(function(){scroll(0,0)});
 });
+

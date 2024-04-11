@@ -87,7 +87,7 @@
 }
 
 .history .month .pie_chart{
-	margin-left: 10px;
+	margin-left: 0px;
 	margin-bottom: 5px;
 }
 .history .month .bar_chart{
@@ -187,6 +187,22 @@
 
 .hover:hover {
 	color: #bada55;
+}
+
+.goTop{
+    position: fixed;
+    z-index: 999;
+    bottom: 6%;
+    right: 6%;
+    width: 60px;
+    height: 60px;
+    background-color: #bada55;
+    border: none;
+    border-radius: 6%;
+    cursor: pointer;
+    color: #fff;
+    outline: none;
+
 }
 
 @media only screen and (max-width: 500px) {
@@ -320,6 +336,7 @@
 		margin-right: 0px;
 	}
 }
+
 
 @media only screen and (max-width: 1050px) {
 	.add .form .btn {

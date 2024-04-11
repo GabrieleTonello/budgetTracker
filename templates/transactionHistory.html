@@ -2,6 +2,7 @@
 	<h2 class="text-light">Add Transactions</h2>
     {% from "includes/_formhelpers.html" import render_field %}
 
+
 	<form class="form" method="POST" action="{{ url_for("addTransaction") }}">
 		<div class="form-group row">
             <div class="form-group col-md-4">
@@ -245,6 +246,9 @@
 
 		</div>
 	</div>
+
 	{%endif%}
+
 </div>
+    <button class="goTop fas fa-arrow-up"></button>
 {% endblock %}

@@ -180,7 +180,7 @@ def hello_world():  # put application's code here
             transactions = result
             return render_template('transactionHistory.html', totalExpenses=totalExpenses, transactions=transactions)
         else:
-            flash('No Transactions Found', 'success')
+            flash('No Transactions Found', 'info')
             return redirect(url_for('hello_world'))
         # Close connection
 
@@ -214,7 +214,7 @@ def editTransaction(id):
     bank = request.form.get('bank', None)
     amount = request.form.get('amount', None)
     description = request.form.get('description', None)
-    category = request.form.get('category', None)
+    category = request.form.get('category_selector', None)
 
     cur = conn.cursor()
     # Execute
@@ -241,6 +241,10 @@ def addTransaction():
     description = request.form.get('description', None)
     category = request.form.get('category', None)
     cur = conn.cursor()
+    if amount == "" or date == "" or description == "":
+        cur.close()
+        flash('Transaction Error', 'danger')
+        return redirect(url_for('hello_world'))
     # Execute
     cur.execute('''INSERT INTO transactions (account, date, description, amount, category)
                       VALUES (?, ?, ?, ?, ?)''', (bank, date, description, amount, category))
