@@ -28,7 +28,7 @@ class SignUpForm(Form):
 def signup():
     if 'logged_in' in session and session['logged_in'] is True:
         flash('You are already logged in', 'info')
-        return redirect(url_for('hello_world'))
+        return redirect(url_for('home'))
     form = SignUpForm(request.form)
     try:
         a = form.validate()
@@ -75,7 +75,7 @@ class LoginForm(Form):
 def login():
     if 'logged_in' in session and session['logged_in'] == True:
         flash('You are already logged in', 'info')
-        return redirect(url_for('hello_world'))
+        return redirect(url_for('home'))
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
         username = form.username.data
@@ -99,7 +99,7 @@ def login():
                 session['userID'] = userID
 
                 flash('You are now logged in', 'success')
-                return redirect(url_for('hello_world'))
+                return redirect(url_for('home'))
             else:
                 error = 'Invalid Password'
                 return render_template('login.html', form=form, error=error)
@@ -130,7 +130,7 @@ def logout():
 
 @app.route('/', methods=['GET', 'POST'])
 @is_logged_in
-def hello_world():  # put application's code here
+def home():  # put application's code here
     if request.method == 'POST':
         month = f"{int(request.form['month']):02}"
         year = f"{int(request.form['year']):04}"
@@ -155,7 +155,7 @@ def hello_world():  # put application's code here
             return render_template('transactionHistory.html', totalExpenses=totalExpenses, transactions=transactions)
         else:
             flash('No Transactions Found', 'success')
-            return redirect(url_for('hello_world'))
+            return redirect(url_for('home'))
         # Close connection
 
 
@@ -181,7 +181,7 @@ def hello_world():  # put application's code here
             return render_template('transactionHistory.html', totalExpenses=totalExpenses, transactions=transactions)
         else:
             flash('No Transactions Found', 'info')
-            return redirect(url_for('hello_world'))
+            return redirect(url_for('home'))
         # Close connection
 
 
@@ -202,7 +202,7 @@ def deleteTransaction(id):
 
     flash('Transaction Deleted', 'success')
 
-    return redirect(url_for('hello_world'))
+    return redirect(url_for('home'))
 
 @app.route('/editTransaction/<id>', methods=['POST'])
 @is_logged_in
@@ -227,7 +227,7 @@ def editTransaction(id):
     cur.close()
     flash('Transaction Modified', 'success')
 
-    return redirect(url_for('hello_world'))
+    return redirect(url_for('home'))
 
 @app.route('/addTransaction', methods=['POST'])
 @is_logged_in
@@ -244,7 +244,7 @@ def addTransaction():
     if amount == "" or date == "" or description == "":
         cur.close()
         flash('Transaction Error', 'danger')
-        return redirect(url_for('hello_world'))
+        return redirect(url_for('home'))
     # Execute
     cur.execute('''INSERT INTO transactions (account, date, description, amount, category)
                       VALUES (?, ?, ?, ?, ?)''', (bank, date, description, amount, category))
@@ -255,7 +255,7 @@ def addTransaction():
     cur.close()
     flash('Transaction Added', 'success')
 
-    return redirect(url_for('hello_world'))
+    return redirect(url_for('home'))
 
 
 @app.route('/category')
@@ -279,7 +279,7 @@ def categoryBarCharts():
         fig.update_layout(title_text='Spending by category')
         fig.show()
     cur.close()
-    return redirect(url_for('hello_world'))
+    return redirect(url_for('home'))
 
 
 @app.route('/monthly_bar')
@@ -303,7 +303,7 @@ def monthlyBar():
         fig.update_layout(title_text='Monthly Income and Spending')
         fig.show()
     cur.close()
-    return redirect(url_for('hello_world'))
+    return redirect(url_for('home'))
 
 
 @app.route('/monthly_performance')
@@ -319,7 +319,7 @@ def monthlyPerformance():
         state = []
         day = []
         for transaction in result:
-            sum += int(transaction[0])
+            sum += float(transaction[0])
             state.append(sum)
             day.append(transaction[1])
 
@@ -327,7 +327,7 @@ def monthlyPerformance():
         fig.update_layout(title_text='Monthly Balance')
         fig.show()
     cur.close()
-    return redirect(url_for('hello_world'))
+    return redirect(url_for('home'))
 
 
 @app.route('/outflow')
@@ -352,7 +352,11 @@ def outflowChart():
             title_text='Bank used for paying')
         fig.show()
     cur.close()
-    return redirect(url_for('hello_world'))
+    return redirect(url_for('home'))
+
+@app.route("/dev")
+def dev():
+    return render_template("dashboard.html")
 
 
 if __name__ == '__main__':

@@ -39,6 +39,10 @@ $(document).ready(function () {
 		$('.modal-form').attr('action', url);
 
 	});
-	$(".goTop").click(function(){scroll(0,0)});
+	$(".goTop").click(function(){window.scrollTo({
+		top: 100,
+		left: 100,
+		behavior: 'smooth'
+	});});
 });
 
