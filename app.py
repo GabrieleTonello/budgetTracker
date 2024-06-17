@@ -138,8 +138,11 @@ def home():  # put application's code here
         conn = sqlite3.connect('budget_tracker.db')
         cur = conn.cursor()
 
-        cur.execute(
-            "SELECT SUM(amount) FROM transactions  ")
+        if month != "00":
+            cur.execute(f"SELECT SUM(amount) FROM transactions WHERE date >= '{year}/{month}/01' AND date <= '{year}/{month}/31' ")
+        else:
+            cur.execute(
+                "SELECT SUM(amount) FROM transactions")
 
         data = cur.fetchone()
         totalExpenses = f"{data[0] :.1f}"
